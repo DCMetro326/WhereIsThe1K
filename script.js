@@ -37,8 +37,7 @@ async function find1K() {
                     const formattedTime = formatLocalTime(item.LocalTime);
 
                     resultDiv.innerHTML = `
-                        The 1K is currently at <br>
-                        <b>${locationID}</b> - <b>${locationName}</b> on Track <b>${trackNum}</b><br>
+                        The 1K is currently at <b>${locationID} ${locationName}</b> on <b> Track ${trackNum}</b><br>
                         It was last moved at <b>${formattedTime}</b>
                     `;
 
