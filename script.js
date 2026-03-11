@@ -33,10 +33,13 @@ async function find1K() {
                     const locationName = item.LocationName || "Unknown";
                     const locationID = item.LocationID || "Unknown";
 
+                    const formattedTime = formatLocalTime(item.LocalTime);
+
                     resultDiv.innerHTML = `
                         🚆 Car <b>1000</b> found!<br><br>
                         Location Name: <b>${locationName}</b><br>
-                        Location ID: <b>${locationID}</b>
+                        Location ID: <b>${locationID}</b><br>
+                        Last Moved: <b>${formattedTime}</b>
                     `;
 
                     return;
@@ -54,7 +57,50 @@ async function find1K() {
     }
 }
 
-// Run immediately when page loads
+
+/* Convert WMATA LocalTime to readable format */
+function formatLocalTime(timeString) {
+
+    if (!timeString) return "Unknown";
+
+    const date = new Date(timeString);
+
+    const hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const hour12 = hours % 12 || 12;
+
+    const monthNames = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+    ];
+
+    const month = monthNames[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    const daySuffix = getOrdinalSuffix(day);
+
+    return `${hour12}:${minutes} ${ampm}, ${month} ${day}${daySuffix}, ${year}`;
+}
+
+
+/* Add st / nd / rd / th */
+function getOrdinalSuffix(day) {
+
+    if (day > 3 && day < 21) return "th";
+
+    switch (day % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+    }
+}
+
+
+// Run when page loads
 find1K();
 
 // Refresh every 30 seconds
