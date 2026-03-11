@@ -32,14 +32,14 @@ async function find1K() {
 
                     const locationName = item.LocationName || "Unknown";
                     const locationID = item.LocationID || "Unknown";
+                    const trackNum = item.TrackName || "Unknown";
 
                     const formattedTime = formatLocalTime(item.LocalTime);
 
                     resultDiv.innerHTML = `
-                        🚆 Car <b>1000</b> found!<br><br>
-                        Location Name: <b>${locationName}</b><br>
-                        Location ID: <b>${locationID}</b><br>
-                        Last Moved: <b>${formattedTime}</b>
+                        The 1K is currently at <br>
+                        <b>${locationID}</b> - <b>${locationName}</b> on Track <b>${trackNum}</b><br>
+                        It was last moved at <b>${formattedTime}</b>
                     `;
 
                     return;
@@ -47,18 +47,17 @@ async function find1K() {
             }
         }
 
-        resultDiv.textContent = "Car 1000 not currently reported.";
+        resultDiv.textContent = "1000-1001 has been Scrapped. (RIP)";
 
     } catch (error) {
 
         console.error(error);
-        resultDiv.textContent = "Error loading WMATA data.";
+        resultDiv.textContent = "Error";
 
     }
 }
 
 
-/* Convert WMATA LocalTime to readable format */
 function formatLocalTime(timeString) {
 
     if (!timeString) return "Unknown";
@@ -82,15 +81,12 @@ function formatLocalTime(timeString) {
 
     const daySuffix = getOrdinalSuffix(day);
 
-    return `${hour12}:${minutes} ${ampm}, ${month} ${day}${daySuffix}, ${year}`;
+    return `${hour12}:${minutes} ${ampm} on ${month} ${day}${daySuffix}, ${year}`;
 }
 
-
-/* Add st / nd / rd / th */
 function getOrdinalSuffix(day) {
-
+    
     if (day > 3 && day < 21) return "th";
-
     switch (day % 10) {
         case 1: return "st";
         case 2: return "nd";
@@ -100,8 +96,4 @@ function getOrdinalSuffix(day) {
 }
 
 
-// Run when page loads
 find1K();
-
-// Refresh every 30 seconds
-setInterval(find1K, 30000);
