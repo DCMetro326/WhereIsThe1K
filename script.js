@@ -69,7 +69,7 @@ function formatLocalTime(timeString) {
     const minutes = date.getMinutes().toString().padStart(2, "0");
 
     const ampm = hours >= 12 ? "PM" : "AM";
-    const hour12 = hours % 12 || 12;
+    const hour12 = (hours % 12 || 12) -1;
 
     const monthNames = [
         "January","February","March","April","May","June",
